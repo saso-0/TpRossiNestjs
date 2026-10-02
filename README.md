@@ -1,51 +1,47 @@
-# NestJS + Google OAuth2
+# TP NestJS con Google OAuth2
 
-API de registro y login con Google, usando NestJS, TypeORM, MySQL y JWT.
+Backend hecho con NestJS para registrarse e iniciar sesión con una cuenta de Google. Usa MySQL con TypeORM y devuelve un JWT para acceder a las rutas protegidas.
 
-## Requisitos
+## Cómo correrlo
 
-- Node.js 18 o superior
-- MySQL
-- Credenciales de Google (Client ID y Client Secret) creadas en Google Cloud Console
+Necesitás tener Node.js y MySQL instalados, y un Client ID y Client Secret de Google Cloud Console.
 
-## Instalación
+Primero clonás el repositorio e instalás las dependencias:
 
-1. Clonar el repositorio e instalar dependencias:
 ```bash
-   git clone https://github.com/saso-0/TpRossiNestjs.git
-   cd nestjs-google-oauth
-   npm install
+git clone https://github.com/saso-0/TpRossiNestjs.git
+cd TpRossiNestjs
+npm install
 ```
 
-2. Crear la base de datos en MySQL:
+Después creás la base de datos en MySQL:
+
 ```sql
-   CREATE DATABASE nestjs_oauth;
+CREATE DATABASE nestjs_oauth;
 ```
 
-3. Copiar `.env.example` a `.env` y completar los valores:
+Copiás el archivo `.env.example` como `.env` y completás tus datos (credenciales de Google, clave del JWT y datos de MySQL):
+
 ```bash
-   cp .env.example .env
+cp .env.example .env
 ```
 
-   En Google Cloud Console, la URI de redirección autorizada debe ser:
-   `http://localhost:3000/auth/google/redirect`
+En Google Cloud Console, la URI de redirección autorizada tiene que ser `http://localhost:3000/auth/google/redirect`.
 
-## Ejecutar
+Por último, levantás el servidor:
 
 ```bash
 npm run start:dev
 ```
 
-El servidor queda en `http://localhost:3000`.
+Queda andando en `http://localhost:3000`.
 
-## Endpoints
+## Rutas
 
-- `GET /auth/google`: inicia el login con Google
-- `GET /auth/google/redirect`: callback de Google, devuelve el token JWT y los datos del usuario
-- `GET /users/me`: devuelve el perfil del usuario (requiere el header `Authorization: Bearer <token>`)
+- `GET /auth/google`: te manda al login de Google.
+- `GET /auth/google/redirect`: Google vuelve acá y la respuesta trae el token y los datos del usuario.
+- `GET /users/me`: devuelve tu perfil. Hay que mandar el header `Authorization: Bearer <token>`.
 
-## Cómo probar
+## Cómo probarlo
 
-1. Abrir `http://localhost:3000/auth/google` en el navegador e iniciar sesión con Google.
-2. Copiar el `token` que devuelve la respuesta.
-3. Hacer `GET /users/me` con el header `Authorization: Bearer <token>`.
+Entrá a `http://localhost:3000/auth/google` desde el navegador, iniciá sesión con Google y copiá el token que aparece en la respuesta. Después hacé un `GET /users/me` (con Postman, por ejemplo) mandando ese token en el header `Authorization`.
